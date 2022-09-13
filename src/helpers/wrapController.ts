@@ -14,8 +14,8 @@ export interface WrapperArguments {
 }
 
 export interface ValidationSchemas {
-  paramsSchema: ObjectSchema,
-  inputSchema: ObjectSchema
+  paramsSchema?: ObjectSchema,
+  inputSchema?: ObjectSchema
 }
 
 const wrapControllerArgs = (req: Request): WrapperArguments => ({
@@ -37,20 +37,22 @@ const checkControllerFn = (controllerFn: AnyFunction): void => {
 
 export const wrapController = (
   controllerFn: AnyFunction,
-  validationSchemas: ValidationSchemas
+  validationSchemas: ValidationSchemas | undefined = {}
 ): ((req: Request, res: Response) => Promise<void>) => {
   checkControllerFn(controllerFn)
   return async (req: Request, res: Response) => {
     const controllerArgs = wrapControllerArgs(req)
 
     // Validate input and params
-    const { paramsSchema, inputSchema } = validationSchemas
-    const { input, params } = controllerArgs
-    try {
-      validate(inputSchema, input)
-      validate(paramsSchema, params)
-    } catch (error: any) {
-      throw new RequestValidationError(error.details)
+    if (validationSchemas) {
+      const { paramsSchema, inputSchema } = validationSchemas
+      const { input, params } = controllerArgs
+      try {
+        if (inputSchema) validate(inputSchema, input)
+        if (paramsSchema) validate(paramsSchema, params)
+      } catch (error: any) {
+        throw new RequestValidationError(error.details)
+      }  
     }
 
     // Run controller function

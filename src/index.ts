@@ -1,6 +1,10 @@
 import app from './app'
 import { logger } from './logger'
 
-app.listen(process.env.PORT || 3000, () => {
-  logger.info(`Server running on port:3000`)
+import './db'
+import { Config } from './config'
+
+const port = Config.PORT || 5000
+app.listen(port, () => {
+  logger.info(`Server running on port: ${port}`)
 })
