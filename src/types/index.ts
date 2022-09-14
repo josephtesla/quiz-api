@@ -17,8 +17,8 @@ export interface IQuiz {
   isPublished: boolean
   questions: IQuestion[]
   totalQuestions: number
-  createdBy: IUser
-  updatedBy?: IUser
+  createdBy: Types.ObjectId
+  updatedBy?: Types.ObjectId
   createdAt: string
   updatedAt: string
 }
@@ -29,8 +29,8 @@ export interface IQuestion {
   text: string
   solutionType: SolutionTypes
   answers: IAnswer[]
-  createdBy: IUser
-  updatedBy?: IUser
+  createdBy: Types.ObjectId
+  updatedBy?: Types.ObjectId
   createdAt: string
   updatedAt: string
 }

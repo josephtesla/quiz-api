@@ -1,4 +1,4 @@
-import mongoose, { Schema, Types } from "mongoose";
+import mongoose, { Schema } from "mongoose";
 import { SolutionTypes } from "../constants";
 import { modelTransformFn } from "../helpers";
 import { IQuestion } from "../types";
@@ -17,8 +17,8 @@ const schema = new Schema<IQuestion>(
       enum: Object.values(SolutionTypes),
     },
     answers: [AnswerSchema],
-    createdBy: { type: Types.ObjectId, ref: "User" },
-    updatedBy: { type: Types.ObjectId, ref: "User" },
+    createdBy: { type: Schema.Types.ObjectId, ref: "User" },
+    updatedBy: { type: Schema.Types.ObjectId, ref: "User" },
   },
   {
     timestamps: true,
@@ -28,4 +28,4 @@ const schema = new Schema<IQuestion>(
   }
 );
 
-export const Quiz = mongoose.model<IQuestion>("Quiz", schema);
+export const Question = mongoose.model<IQuestion>("Question", schema);

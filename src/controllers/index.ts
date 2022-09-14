@@ -1,2 +1,5 @@
 export * from './login'
 export * from './signup'
+export * from './quiz'
+export * from './question'
+export * from './submission'

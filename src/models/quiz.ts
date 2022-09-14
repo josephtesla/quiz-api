@@ -16,8 +16,8 @@ const schema = new Schema<IQuiz>(
       type: Types.ObjectId,
       ref: 'Question'
     }],
-    createdBy: { type: Types.ObjectId, ref: 'User'},
-    updatedBy: { type: Types.ObjectId, ref: 'User'}
+    createdBy: { type: Schema.Types.ObjectId, ref: 'User'},
+    updatedBy: { type: Schema.Types.ObjectId, ref: 'User'}
   },
   {
     timestamps: true,

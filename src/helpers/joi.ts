@@ -1,10 +1,7 @@
-import { Schema } from 'joi'
+// @ts-nocheck
+import Joi from 'joi'
+import joiObjectId from 'joi-objectid'
 
-export const JoiValidate = (schema: Schema, obj: any): any => {
-  const { error, value } = schema.validate(obj, { abortEarly: false })
-  if (error != null) {
-    throw error
-  }
+Joi.objectId = joiObjectId(Joi)
 
-  return value
-}
+export { Joi }

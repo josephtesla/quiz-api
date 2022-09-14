@@ -1,20 +1,16 @@
-import Joi from "joi";
+import { Joi } from '../helpers'
 
-const signUpInputSchema = Joi.object().keys({
-  name: Joi.string().required(),
-  email: Joi.string().email().required(),
-  password: Joi.string().required()
-}); 
-
-const loginInputSchema = Joi.object().keys({
-  email: Joi.string().email().required(),
-  password: Joi.string().required()
-}); 
-
-export const signUpValidationSchemas = {
-  inputSchema: signUpInputSchema
+export const signUpSchemas = {
+  inputSchema: Joi.object().keys({
+    name: Joi.string().required(),
+    email: Joi.string().email().required(),
+    password: Joi.string().required()
+  })
 }
 
-export const loginValidationSchemas = {
-  inputSchema: loginInputSchema
+export const loginSchemas = {
+  inputSchema: Joi.object().keys({
+    email: Joi.string().email().required(),
+    password: Joi.string().required()
+  })
 }

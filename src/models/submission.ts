@@ -1,4 +1,4 @@
-import mongoose, { Schema, Types } from "mongoose";
+import mongoose, { Schema } from "mongoose";
 import { modelTransformFn } from "../helpers";
 import { ISubmission } from "../types";
 import { AnswerSchema } from "./answer";

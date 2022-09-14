@@ -45,6 +45,7 @@
     "dotenv": "^16.0.2",
     "express": "^4.18.1",
     "joi": "^17.6.0",
+    "joi-objectid": "^4.0.2",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.6.0",
     "validator": "^13.7.0",
