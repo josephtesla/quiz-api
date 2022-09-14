@@ -1,5 +1,5 @@
 import { ensureAccessToSubmissions, WrapperArguments } from "../helpers";
-import { NotFoundError } from "../helpers/error";
+import { BadRequestError, NotFoundError } from "../helpers/error";
 import { Question } from "../models/question";
 import { Quiz } from "../models/quiz";
 import { Submission } from "../models/submission";
@@ -15,6 +15,10 @@ export const createSubmission = async ({
 
   const quiz = await Quiz.findOne({ _id: quizId });
   if (!quiz) throw new NotFoundError("Quiz not found");
+
+  if (!quiz.isPublished){
+    throw new BadRequestError("Cannot submit solutions. Quiz not yet published")
+  }
 
   // build analysis
   let percentScoreSum = 0;
@@ -50,6 +54,7 @@ export const createSubmission = async ({
     percentScoreSum += percentScore;
 
     const questionAnswersSummary = {
+      questionId,
       percentScore,
       selectedAnswers: question.answers.filter((ans) =>
         selectedAnswersIds.includes(ans.id)
@@ -79,19 +84,28 @@ export const getAllQuizSubmissions = async ({
   const { quizId } = params;
   const { byCurrentUser } = query;
 
-  const quiz = await Quiz.findOne({ _id: quizId }, { analysis: -1 });
+  const quiz = await Quiz.findOne({ _id: quizId });
   if (!quiz) {
     throw new NotFoundError("Quiz not found");
   }
 
   const filter = { quizId };
   if (byCurrentUser === "1") {
-    Object.assign(filter, { userId: user?.id });
+    Object.assign(filter, { userId: user?.id }); // get all submission by current user for this quiz
   } else {
+    // else get all submissions for this quiz, ensure user is creator of quiz
     ensureAccessToSubmissions(user?.id, quiz);
   }
 
-  return await Submission.find(filter);
+  const submissions = await Submission.find(filter)
+    .populate("submittedByUser", "id name email")
+    .populate("quizDetails")
+
+  return submissions.map(sub => {
+    sub = sub.toObject()
+    delete sub['analysis']
+    return sub
+  })
 };
 
 export const getSubmission = async ({ params, user }: WrapperArguments) => {
@@ -100,7 +114,7 @@ export const getSubmission = async ({ params, user }: WrapperArguments) => {
   if (!quiz) throw new NotFoundError("Quiz not found");
 
   const submission = await Submission.findOne({ _id: submissionId, quizId })
-    .populate("submittedByUser")
+    .populate("submittedByUser", "id name email")
     .populate("quizDetails");
 
   if (!submission) throw new NotFoundError("Submission not found");

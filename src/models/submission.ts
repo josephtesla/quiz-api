@@ -35,11 +35,18 @@ const submissionSchema = new Schema<ISubmission>(
       type: Number,
       max: [100, "The value of path `totalPercentScore` exceeds the limit 100"],
     },
-    analysis: [QuestionAnswersSummary],
+    analysis: {
+      type: [QuestionAnswersSummary],
+      default: []
+    }
   },
   {
     timestamps: true,
     toJSON: {
+      transform: modelTransformFn,
+      virtuals: true,
+    },
+    toObject: {
       transform: modelTransformFn,
       virtuals: true,
     },

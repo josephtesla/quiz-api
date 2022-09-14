@@ -1,5 +1,5 @@
 import { ensureCanUpdateQuiz, WrapperArguments } from "../helpers";
-import { NotFoundError } from "../helpers/error";
+import { NotAuthorizedError, NotFoundError } from "../helpers/error";
 import { Question } from "../models/question";
 import { Quiz } from "../models/quiz";
 import { IQuestion } from "../types";
@@ -66,6 +66,10 @@ export const updateQuiz = async({ params, input, user }: WrapperArguments) => {
   const quiz = await Quiz.findOne({ _id: quizId })
   if (quiz == null) {
     throw new NotFoundError("Quiz with the ID not found")
+  }
+
+  if (quiz.isPublished){
+    throw new NotAuthorizedError("Cannot update already published quiz")
   }
 
   ensureCanUpdateQuiz(user?.id, quiz)

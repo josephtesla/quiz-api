@@ -29,7 +29,7 @@ const schema = new Schema<IQuiz>(
 );
 
 schema.virtual("totalQuestions").get(function(){
-  return this.questions.length
+  return this.questions ? this.questions.length : 0
 })
 
 export const Quiz = mongoose.model<IQuiz>("Quiz", schema);

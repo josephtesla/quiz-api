@@ -22,16 +22,17 @@ import {
   loginSchemas,
   signUpSchemas,
   updateQuestionSchemas,
-} from "../controllerSchemas";
+} from "../validationSchemas";
 import {
   createQuizSchemas,
   deleteQuizSchemas,
   getAllQuizzesSchemas,
   getQuizSchemas,
   updateQuizSchemas,
-} from "../controllerSchemas/quiz";
+} from "../validationSchemas/quiz";
 import { wrapController } from "../helpers";
 import { ensureAuthenticated } from "../middleware/ensureAunthenticated";
+import { createSubmissionSchemas, getAllSubmissionsSchemas, getSubmissionSchemas } from "../validationSchemas/submission";
 
 const router: Router = express.Router();
 
@@ -69,8 +70,8 @@ router.delete(
 );
 
 //Submission
-router.post("/submissions", wrapController(createSubmission));
-router.get("/submissions/:quizId", wrapController(getAllQuizSubmissions));
-router.get("/submissions/:quizId/:submissionId", wrapController(getSubmission));
+router.post("/quiz/:quizId/submissions", wrapController(createSubmission, createSubmissionSchemas));
+router.get("/quiz/:quizId/submissions", wrapController(getAllQuizSubmissions, getAllSubmissionsSchemas));
+router.get("/quiz/:quizId/submissions/:submissionId", wrapController(getSubmission, getSubmissionSchemas));
 
 export default router;

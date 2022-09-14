@@ -27,7 +27,7 @@ export const getQuizSchemas = {
 export const updateQuizSchemas = {
   inputSchema: Joi.object().keys({
     title: Joi.string(),
-    isPublished: Joi.boolean()
+    isPublished: Joi.boolean().valid(true)
   }),
 
   paramsSchema: Joi.object().keys({

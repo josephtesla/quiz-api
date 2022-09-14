@@ -46,7 +46,7 @@ export interface ISubmission {
   userId: Types.ObjectId
   quizId: Types.ObjectId
   totalPercentScore: number
-  analysis: {
+  analysis?: {
     questionId: string
     selectedAnswers: string[]
     percentScore: number

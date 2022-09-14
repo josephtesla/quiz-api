@@ -1,5 +1,5 @@
 import { ensureCanUpdateQuiz, WrapperArguments } from "../helpers";
-import { NotFoundError } from "../helpers/error";
+import { NotAuthorizedError, NotFoundError } from "../helpers/error";
 import { Question } from "../models/question";
 import { Quiz } from "../models/quiz";
 
@@ -16,6 +16,10 @@ export const createQuestion = async ({
     throw new NotFoundError("Quiz not found");
   }
 
+  if (quiz.isPublished){
+    throw new NotAuthorizedError("Cannot update already published quiz")
+  }
+
   ensureCanUpdateQuiz(user?.id, quiz);
   const question = new Question({
     quizId,
@@ -25,13 +29,13 @@ export const createQuestion = async ({
   });
 
   const session = await Quiz.startSession();
-  session.withTransaction(async () => {
+  await session.withTransaction(async () => {
     quiz.questions.push(question);
     await question.save({ session });
     await quiz.save({ session });
   });
-  session.endSession();
 
+  session.endSession();
   return question;
 };
 
@@ -55,7 +59,6 @@ export const updateQuestion = async({ params, input, user }: WrapperArguments) =
   }
 
   ensureCanUpdateQuiz(user?.id, quiz)
-  
   const question = await Question.findOne({ _id: questionId });
   if (!question) throw new NotFoundError("Question not found");
 

@@ -8,6 +8,10 @@ export const ensureCanUpdateQuiz = (
   if (userId !== quiz.createdBy.toString()) {
     throw new NotAuthorizedError("User does not have access to update quiz");
   }
+
+  if (quiz.isPublished){
+    throw new NotAuthorizedError("Cannot update already published quiz")
+  }
 };
 
 /**
@@ -20,7 +24,7 @@ export const ensureAccessToSubmissions = (
   submission?: ISubmission
 ) => {
   if (quiz.createdBy.toString() == userId) return
-  if (submission?.userId.toString() == userId) return
+  if (submission?.userId?.toString() == userId) return
 
   throw new NotAuthorizedError("User does not have access to view submissions for this quiz")
 };
