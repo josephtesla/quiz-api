@@ -6,10 +6,11 @@ export class NotAuthenticatedError extends RequestError {
   _message: string
   _details = null
 
-  constructor () {
-    super('Not authenticated')
+  constructor (message: string) {
+    message = message ?? "Not authenticated"
+    super(message)
 
-    this._message = 'Not authenticated'
+    this._message = message
     Object.setPrototypeOf(this, NotAuthenticatedError.prototype)
   }
 

@@ -6,10 +6,11 @@ export class NotAuthorizedError extends RequestError {
   _message: string
   _details = null
 
-  constructor () {
-    super('Not authorized')
+  constructor (message: string) {
+    message = message ?? "Not authorized"
+    super(message)
 
-    this._message = 'Not authorized'
+    this._message = message
     Object.setPrototypeOf(this, NotAuthorizedError.prototype)
   }
 

@@ -4,15 +4,17 @@ import { DetailsParams } from './RequestError'
 interface ValidationErrorsParams {
   path: string[]
   type: string
+  message: string
 }
 
 interface ValidationResult {
   code: string
   path: string
+  message: string
 }
 
 const parseValidationErrors = (validationErrors: ValidationErrorsParams[]): ValidationResult[] => {
-  return validationErrors.map(({ path, type }) => {
+  return validationErrors.map(({ path, type, message }) => {
     let fieldErrorCode = FieldErrorCodes.INVALID_VALUE
     if (type === 'any.required') {
       fieldErrorCode = FieldErrorCodes.MISSING_VALUE
@@ -20,7 +22,8 @@ const parseValidationErrors = (validationErrors: ValidationErrorsParams[]): Vali
 
     return {
       code: fieldErrorCode,
-      path: path.join('.')
+      path: path.join('.'),
+      message
     }
   })
 }

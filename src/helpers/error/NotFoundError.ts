@@ -6,10 +6,11 @@ export class NotFoundError extends RequestError {
   _message: string
   _details = null
 
-  constructor () {
-    super('Not found')
+  constructor (message: string) {
+    message = message ?? "Not Found"
+    super(message)
 
-    this._message = 'Not found'
+    this._message = message
     Object.setPrototypeOf(this, NotFoundError.prototype)
   }
 

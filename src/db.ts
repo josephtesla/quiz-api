@@ -6,8 +6,7 @@ const mongoURL: string = Config.MONGO_URL
 if (mongoURL == null || mongoURL === '') logger.error('mongoURL not set')
 
 if (process.env.NODE_ENV === 'development') {
-  const shouldEnableDebug = Number(process.env.DISABLE_MONGOOSE_DEBUG) !== 1
-  mongoose.set('debug', shouldEnableDebug)
+  mongoose.set('debug', true)
 }
 
 mongoose
