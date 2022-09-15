@@ -7,6 +7,7 @@ import {
   deleteQuiz,
   getAllQuizSubmissions,
   getAllQuizzes,
+  getAllUserSubmissions,
   getQuestion,
   getQuiz,
   getSubmission,
@@ -73,5 +74,6 @@ router.delete(
 router.post("/quiz/:quizId/submissions", wrapController(createSubmission, createSubmissionSchemas));
 router.get("/quiz/:quizId/submissions", wrapController(getAllQuizSubmissions, getAllSubmissionsSchemas));
 router.get("/quiz/:quizId/submissions/:submissionId", wrapController(getSubmission, getSubmissionSchemas));
+router.get("/submissions/by-user", wrapController(getAllUserSubmissions))
 
 export default router;

@@ -16,8 +16,10 @@ export const createSubmission = async ({
   const quiz = await Quiz.findOne({ _id: quizId });
   if (!quiz) throw new NotFoundError("Quiz not found");
 
-  if (!quiz.isPublished){
-    throw new BadRequestError("Cannot submit solutions. Quiz not yet published")
+  if (!quiz.isPublished) {
+    throw new BadRequestError(
+      "Cannot submit solutions. Quiz not yet published"
+    );
   }
 
   // build analysis
@@ -99,13 +101,13 @@ export const getAllQuizSubmissions = async ({
 
   const submissions = await Submission.find(filter)
     .populate("submittedByUser", "id name email")
-    .populate("quizDetails")
+    .populate("quizDetails");
 
-  return submissions.map(sub => {
-    sub = sub.toObject()
-    delete sub['analysis']
-    return sub
-  })
+  return submissions.map((sub) => {
+    sub = sub.toObject();
+    delete sub["analysis"];
+    return sub;
+  });
 };
 
 export const getSubmission = async ({ params, user }: WrapperArguments) => {
@@ -121,4 +123,16 @@ export const getSubmission = async ({ params, user }: WrapperArguments) => {
 
   ensureAccessToSubmissions(user?.id, quiz, submission);
   return submission;
+};
+
+export const getAllUserSubmissions = async ({ user }: WrapperArguments) => {
+  const submissions = await Submission.find({ userId: user?.id })
+    .populate("submittedByUser", "id name email")
+    .populate("quizDetails");
+
+  return submissions.map((sub) => {
+    sub = sub.toObject();
+    delete sub["analysis"];
+    return sub;
+  });
 };

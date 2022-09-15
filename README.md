@@ -34,5 +34,4 @@
    - Pass `?byCurrentUser=1` query to get all submissions of the current user for the quiz
 
 - `GET /quiz/[:quizId]/submissions/[:submissionId]` Gets single submission details with breakdown/analysis
-
-
+- `GET /submissions/by-user` Gets all submissions made by the current/signed in user (on any quiz) 
