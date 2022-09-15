@@ -15,8 +15,8 @@
 
 ### Quiz
 - `POST /quiz` creates a new quiz
-- `GET /quizzes` Gets all quizzes
-   can pass `?createdBy={:userId}` query to get all quizzes created by a user
+- `GET /quizzes` Gets all quizzes. 
+   - Pass `?createdBy={:userId}` query to get all quizzes created by a user
 
 - `GET /quiz/[:quizId]` Get Single quiz (with questions)
 - `PATCH /quiz/[:quizId]` Updates a quiz
@@ -30,8 +30,8 @@
 
 ### Submissions
 - `POST /quiz/[:quizId]/submissions` Creates a submission for a quiz
-- `GET /quiz/[:quizId]/submissions` Gets all submissions for a quiz
-   can pass `?byCurrentUser=1` query to get all submissions of the current user for the quiz
+- `GET /quiz/[:quizId]/submissions` Gets all submissions for a quiz. 
+   - Pass `?byCurrentUser=1` query to get all submissions of the current user for the quiz
 
 - `GET /quiz/[:quizId]/submissions/[:submissionId]` Gets single submission details with breakdown/analysis
 
