@@ -1,5 +1,6 @@
+import { QUESTIONS_LIMIT } from "../constants";
 import { ensureCanUpdateQuiz, WrapperArguments } from "../helpers";
-import { NotAuthorizedError, NotFoundError } from "../helpers/error";
+import { BadRequestError, NotAuthorizedError, NotFoundError } from "../helpers/error";
 import { Question } from "../models/question";
 import { Quiz } from "../models/quiz";
 
@@ -21,6 +22,11 @@ export const createQuestion = async ({
   }
 
   ensureCanUpdateQuiz(user?.id, quiz);
+
+  if (quiz.totalQuestions >= QUESTIONS_LIMIT){
+    throw new BadRequestError("Limit for number of questions reached")
+  }
+
   const question = new Question({
     quizId,
     text,

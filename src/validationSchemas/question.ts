@@ -1,6 +1,6 @@
 //@ts-nocheck
 import { Joi } from "../helpers";
-import { SolutionTypes } from "../constants";
+import { ANSWERS_LIMIT, SolutionTypes } from "../constants";
 
 export const createQuestionSchemas = {
   inputSchema: Joi.object().keys({
@@ -9,7 +9,7 @@ export const createQuestionSchemas = {
     answers: Joi.array().items(Joi.object().keys({
       answerText: Joi.string().required(),
       isCorrect: Joi.boolean().required()
-    })).required()
+    })).min(1).max(ANSWERS_LIMIT).required()
   }),
 
   paramsSchema: Joi.object().keys({

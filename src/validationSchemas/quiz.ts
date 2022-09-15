@@ -1,13 +1,13 @@
 //@ts-nocheck
 import { Joi } from "../helpers";
-import { SolutionTypes } from "../constants";
+import { QUESTIONS_LIMIT, SolutionTypes } from "../constants";
 import { createQuestionSchemas } from "./question";
 
 export const createQuizSchemas = {
   inputSchema: Joi.object().keys({
     title: Joi.string().required(),
     questions: Joi.array()
-      .items(createQuestionSchemas.inputSchema)
+      .items(createQuestionSchemas.inputSchema).max(QUESTIONS_LIMIT)
   }),
 };
 
