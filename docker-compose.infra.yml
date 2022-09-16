@@ -2,7 +2,7 @@ version: '3.1'
 
 services:
   mongodb:
-    container_name: mongodb-toptal
+    container_name: mongodb-quiz-api
     image: flqw/docker-mongo-local-replicaset
     ports:
       - 27001:27001 # mongo 1
